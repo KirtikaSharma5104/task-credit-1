@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saloon Website</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #FF69B4; /* Change color to pink */
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* ... (your existing styles) ... */
+
+    /* Additional Styles */
+    /* ... (your existing additional styles) ... */
+
+    /* Services Styles */
+    .services {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .service-item {
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    .service-item p {
+      margin: 10px 0;
+    }
+
+    .service-item .price {
+      font-weight: bold;
+      color: #FF69B4; /* Change color to pink */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="saloon-app">
+    <header>
+      <h1>Welcome to Our Salon</h1>
+      <p class="special-offer" v-show="showSpecialOffer">Special Offer: Get 20% off on all services!</p>
+    </header>
+
+    <section class="services">
+      <h2>Our Services</h2>
+      <div class="service-item" v-for="service in services" :key="service.id">
+        <p>{{ service.name }}</p>
+        <p class="price">${{ service.price }}</p>
+        <button @click="bookService(service)">Book Now</button>
+        <p v-if="service.booked" class="booked-service">{{ service.name }} - Booked</p>
+      </div>
+    </section>
+
+    <section v-if="selectedService">
+      <h2>Booked Service</h2>
+      <p>You have booked: {{ selectedService.name }} - ${{ selectedService.price }}</p>
+      <button @click="cancelBooking">Cancel Booking</button>
+    </section>
+
+    <section>
+      <h2>Contact Us</h2>
+      <form @submit.prevent="submitForm">
+        <label for="name">Name:</label>
+        <input type="text" v-model="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" v-model="email" required>
+
+        <label for="message">Message:</label>
+        <textarea v-model="message" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="https://unpkg.com/vue@3.2.20/dist/vue.esm-browser.js"></script>
+  <script src="https://unpkg.com/vue@3.2.20/dist/vue.global.prod.js"></script>
+
+  <script>
+    const saloonApp = Vue.createApp({
+      data() {
+        return {
+          showSpecialOffer: true,
+          services: [
+            { id: 1, name: "Haircut", price: 30, booked: false },
+            { id: 2, name: "Threading", price: 20, booked: false },
+            { id: 3, name: "Nail Art", price: 45, booked: false },
+            { id: 4, name: "Manicure", price: 50, booked: false },
+            { id: 5, name: "Pedicure", price: 34, booked: false },
+          ],
+          selectedService: null,
+          name: "",
+          email: "",
+          message: ""
+        };
+      },
+      methods: {
+        bookService(service) {
+          service.booked = true;
+          this.selectedService = service;
+        },
+        cancelBooking() {
+          if (this.selectedService) {
+            this.selectedService.booked = false;
+            this.selectedService = null;
+          }
+        },
+        submitForm() {
+          // Add your form submission logic
+          alert("Form submitted!");
+          // Clear form fields after submission
+          this.name = "";
+          this.email = "";
+          this.message = "";
+        }
+      }
+    });
+
+    saloonApp.mount("#saloon-app");
+  </script>
+</body>
+
+</html>

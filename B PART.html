@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #todo-app {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 10px 20px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #e64a19;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .add-todo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .add-todo input {
+      flex: 1;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="todo-app">
+    <header>
+      <h1>Todo App</h1>
+    </header>
+
+    <div class="add-todo">
+      <input type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="Add a new todo...">
+      <button @click="addTodo">Add</button>
+    </div>
+
+    <ul>
+      <li v-for="(todo, index) in todos" :key="index" :class="{ 'completed': todo.completed }">
+        <span @click="toggleTodoStatus(index)">{{ todo.text }}</span>
+        <button @click="deleteTodo(index)">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://unpkg.com/vue@3.2.20/dist/vue.esm-browser.js"></script>
+  <script src="https://unpkg.com/vue@3.2.20/dist/vue.esm-browser.js"></script>
+  
+
+  <script>
+    const todoApp = Vue.createApp({
+      data() {
+        return {
+          todos: [],
+          newTodo: ""
+        };
+      },
+      methods: {
+        addTodo() {
+          if (this.newTodo.trim() !== "") {
+            this.todos.push({
+              text: this.newTodo,
+              completed: false
+            });
+            this.newTodo = "";
+          }
+        },
+        deleteTodo(index) {
+          this.todos.splice(index, 1);
+        },
+        toggleTodoStatus(index) {
+          this.todos[index].completed = !this.todos[index].completed;
+        }
+      }
+    });
+
+    todoApp.mount("#todo-app");
+  </script>
+</body>
+</html>
+SS
